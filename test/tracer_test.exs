@@ -14,9 +14,12 @@ defmodule TracerTest do
 
   describe "get_trace_context/0" do
     test "gets trace context", %{context: context} do
-      TraceContext.put(context)
+      trace_key = self()
+      :ok = TraceContext.put(trace_key, context)
 
-      fetched_context = Tracer.get_trace_context()
+      Process.sleep(1)
+
+      fetched_context = Tracer.get_trace_context(trace_key)
       assert is_map(fetched_context)
       assert fetched_context.trace_id == context.trace_id
       assert fetched_context.span_id == context.span_id
@@ -28,9 +31,12 @@ defmodule TracerTest do
 
   describe "get_trace_header/0" do
     test "gets trace header", %{context: context} do
-      TraceContext.put(context)
+      trace_key = self()
+      TraceContext.put(trace_key, context)
 
-      {header, value} = Tracer.get_trace_header()
+      Process.sleep(1)
+
+      {header, value} = Tracer.get_trace_header(trace_key)
       assert header == @trace_header
       assert value =~ context.trace_id
       assert value =~ context.span_id
