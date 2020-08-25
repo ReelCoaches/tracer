@@ -17,7 +17,7 @@ defmodule TracerTest do
       trace_key = self()
       :ok = TraceContext.put(trace_key, context)
 
-      fetched_context = Tracer.get_trace_context(trace_key)
+      fetched_context = Tracer.get_trace_context()
       assert is_map(fetched_context)
       assert fetched_context.trace_id == context.trace_id
       assert fetched_context.span_id == context.span_id
