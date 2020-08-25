@@ -13,7 +13,7 @@ defmodule Tracer.Plug do
   @impl Plug
   @spec call(Plug.Conn.t(), keyword) :: Plug.Conn.t()
   def call(conn, opts) do
-    key = Keyword.get(opts, :trace_key)
+    key = Keyword.get(opts, :trace_key, self())
     header = Keyword.get(opts, :trace_context_header, "x-cloud-trace-context")
     project_id = Keyword.get(opts, :project_id, "my-project")
 

@@ -7,13 +7,12 @@ defmodule Tracer.Middleware.TraceHeaderTest do
 
   describe "call/3" do
     test "adds trace header" do
-      trace_key = self()
       context = TraceContext.new("x-cloud-trace-context", "my-project")
-      :ok = TraceContext.put(trace_key, context)
+      :ok = TraceContext.put(self(), context)
 
-      assert {:ok, env} = @middleware.call(%Env{}, [], trace_key: trace_key)
+      assert {:ok, env} = @middleware.call(%Env{}, [], [])
 
-      header = Tracer.get_trace_header(trace_key)
+      header = Tracer.get_trace_header()
 
       assert env.headers == [header]
     end
