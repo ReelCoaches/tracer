@@ -17,8 +17,6 @@ defmodule TracerTest do
       trace_key = self()
       :ok = TraceContext.put(trace_key, context)
 
-      Process.sleep(1)
-
       fetched_context = Tracer.get_trace_context(trace_key)
       assert is_map(fetched_context)
       assert fetched_context.trace_id == context.trace_id
@@ -33,8 +31,6 @@ defmodule TracerTest do
     test "gets trace header", %{context: context} do
       trace_key = self()
       TraceContext.put(trace_key, context)
-
-      Process.sleep(1)
 
       {header, value} = Tracer.get_trace_header(trace_key)
       assert header == @trace_header

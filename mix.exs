@@ -23,7 +23,8 @@ defmodule Tracer.MixProject do
   defp deps do
     [
       {:plug_cowboy, "~> 2.0"},
-      {:tesla, "~> 1.3"}
+      {:tesla, "~> 1.3"},
+      {:con_cache, "~> 0.14.0"}
     ]
   end
 end

@@ -11,8 +11,6 @@ defmodule Tracer.Middleware.TraceHeaderTest do
       context = TraceContext.new("x-cloud-trace-context", "my-project")
       :ok = TraceContext.put(trace_key, context)
 
-      Process.sleep(1)
-
       assert {:ok, env} = @middleware.call(%Env{}, [], trace_key: trace_key)
 
       header = Tracer.get_trace_header(trace_key)

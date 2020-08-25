@@ -1,6 +1,4 @@
 defmodule Tracer.TraceContext do
-  alias Tracer.TraceCache
-
   require Logger
 
   defstruct trace_header: "",
@@ -41,7 +39,7 @@ defmodule Tracer.TraceContext do
 
   @spec get(any) :: Tracer.TraceContext.t()
   def get(key) do
-    TraceCache.read(key)
+    ConCache.get(:trace_cache, key)
   end
 
   @spec put(any, Tracer.TraceContext.t()) :: :ok
@@ -51,7 +49,7 @@ defmodule Tracer.TraceContext do
   end
 
   def put(key, %__MODULE__{} = context) do
-    TraceCache.cache(key, context)
+    ConCache.put(:trace_cache, key, context)
   end
 
   defp generate_trace_id do
